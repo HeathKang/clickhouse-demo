@@ -1,0 +1,8 @@
+clickhouse_database/
+target/
+.bsp/
+.metals/
+.vscode/
+project/
+.bloop/
+.idea/
