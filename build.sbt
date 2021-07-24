@@ -11,6 +11,7 @@ lazy val root = project
     libraryDependencies ++= Seq(
     //   "com.typesafe.akka" % "akka-stream_2.13"  % AkkaVersion,
       "io.findify" % "clickhouse-akka-stream_2.13" % "0.4.6",
-      "dev.zio" %% "zio" % zioVersion
+      "dev.zio" %% "zio" % zioVersion,
+      "com.crobox.clickhouse" % "client_2.13" % "0.10.0"
     )
   )
