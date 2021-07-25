@@ -29,6 +29,6 @@ case class SourceServiceLive(
 }
 
 object SourceServiceLive {
-  val layer: URLayer[Has[Console.Service] with Has[Random.Service] with Has[Clock.Service], Has[SourceService]] =
+  val live: URLayer[Has[Console.Service] with Has[Random.Service] with Has[Clock.Service], Has[SourceService]] =
     (SourceServiceLive(_, _, _)).toLayer   
 }
