@@ -16,16 +16,20 @@ object MyApp extends zio.App {
         val action: ZIO[Console with Clock with Has[SourceService] with Has[ClickHouseService]  , Throwable, Unit] = 
             for {
                 operationalData <- SourceService.generateOperationalData
-                _ <- putStrLn(operationalData.toString) *> sleep(1.seconds)
+                _ <- putStrLn(operationalData.toString) *> sleep(10.milliseconds)
                 future <- ClickHouseService.insertOperationalData(operationalData)
-                _ <- ZIO.fromFuture({
-                    implicit ec => future.flatMap({
-                        result => Future(println(result))
-                    })
-                })
+                    // _ <- Fiber.fromFuture[String](future)
+                // _ <- fiber.join
+                // // data  <- fiber.join
+
+                // _ <- ZIO.fromFuture({
+                //     implicit ec => future.flatMap({
+                //         result => Future(println(result))
+                // })
+                // })
             } yield ()
         
-        val policy = Schedule.recurs(10)
+        val policy = Schedule.forever
         action.provideCustomLayer(SourceServiceLive.live ++ (ClickhouseClientLive.live >>> ClickHouseServiceLive.live)).repeat(policy).exitCode
 
 }
