@@ -7,11 +7,11 @@ import com.typesafe.config.ConfigFactory
 
 object ClickhouseClientLive {
     val live: TaskLayer[Has[ClickhouseClient]] = 
-        ZLayer.fromEffect(for {
+        ZLayer.fromZIO(for {
             config <- getConfig
             // queryDatabase <- ZIO.succeed("default")
         } yield ClickhouseClient(Some(config)))
     
     def getConfig: Task[Config] =
-        ZIO.effect(ConfigFactory.load())
+        ZIO.attempt(ConfigFactory.load())
 }

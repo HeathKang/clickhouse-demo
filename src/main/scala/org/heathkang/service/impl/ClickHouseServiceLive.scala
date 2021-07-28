@@ -12,7 +12,7 @@ case class ClickHouseServiceLive(db: ClickhouseClient) extends ClickHouseService
 
     def insertOperationalData(data: OperationalData): Task[Future[String]] =
         given QuerySettings = QuerySettings(QuerySettings.AllQueries)
-        ZIO.effect(db.execute(
+        ZIO.attempt(db.execute(
           s"INSERT INTO operational_data (*) VALUES " +
           s"('${data.name}', ${data.a1}, ${data.a2}, ${data.a3}, ${data.a4}, ${data.a5}, ${data.a6}, ${data.time});"
         ))

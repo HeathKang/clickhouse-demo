@@ -1,18 +1,18 @@
 package org.heathkang.service.impl
 
 import zio._
-import zio.console._
-import zio.random._
-import zio.clock._
+import zio.Console._
+import zio.Random._
+import zio.Clock._
 import org.heathkang.service.SourceService
 import org.heathkang.domain.OperationalData
 import java.util.concurrent.TimeUnit
 
 
 case class SourceServiceLive(
-    console: Console.Service,
-    random:  Random.Service,
-    clock: Clock.Service) extends SourceService {
+    console: Console,
+    random:  Random,
+    clock: Clock) extends SourceService {
     
   override def generateOperationalData: UIO[OperationalData] =
     for {
@@ -29,6 +29,10 @@ case class SourceServiceLive(
 }
 
 object SourceServiceLive {
-  val live: URLayer[Has[Console.Service] with Has[Random.Service] with Has[Clock.Service], Has[SourceService]] =
-    (SourceServiceLive(_, _, _)).toLayer   
+  val live: URLayer[Has[Console] with Has[Random] with Has[Clock], Has[SourceService]] =
+     (for {
+       console <- ZIO.service[Console]
+       random <-  ZIO.service[Random]
+       clock  <-  ZIO.service[Clock]
+     } yield SourceServiceLive(console, random, clock)).toLayer
 }
