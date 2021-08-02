@@ -12,6 +12,7 @@ lazy val root = project
     //   "com.typesafe.akka" % "akka-stream_2.13"  % AkkaVersion,
       "io.findify" % "clickhouse-akka-stream_2.13" % "0.4.6",
       "dev.zio" %% "zio" % zioVersion,
+      "dev.zio" % "zio-kafka_2.13" % "0.15.0",
       "com.crobox.clickhouse" % "client_2.13" % "0.10.0"
     )
   )
